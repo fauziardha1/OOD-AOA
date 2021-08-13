@@ -1,4 +1,3 @@
-from problem import limitFunction, mainFunction
 from object import Object, Fitness
 from numpy import random
 import math
@@ -85,7 +84,9 @@ def AOA(numOfObj,lowerBound,upperBound,maximumIteration,C3,C4, mainFunction,dim,
 
         # check position and make sure position in range 
         # and update score of each object
+        # printAllPopulation(population,"before Check Position")
         population = checkPosition(dim,population,lowerBound,upperBound,mainFunction,positionLimit)
+        # printAllPopulation(population,"after Check Position")
 
         # Evaluate each object and select the one with the best fitness value
         if fitness == Fitness.maximum :
@@ -96,7 +97,7 @@ def AOA(numOfObj,lowerBound,upperBound,maximumIteration,C3,C4, mainFunction,dim,
 
         iteration  = iteration + 1
     # end of while
-
+    # exit()
     #  return object with the best fitness value
     return bestObject, population
 
@@ -117,7 +118,7 @@ def generatePopulation(numOfObj,lowerBound,upperBound,mainFunction,dim,positionL
                 objPosition = []
                 for count in range(dim):
                     objPosition.append(positionLimit[count].lowerBound + random.rand() * (positionLimit[count].upperBound - positionLimit[count].lowerBound))
-                isPositionValidate = limitFunction(objPosition)
+                isPositionValidate = True if limitFunction == None else limitFunction(objPosition)
 
         # TODO : What if position is not an array
 
@@ -196,3 +197,10 @@ def checkPosition(dim,population,lowerBound,upperBound,mainFunction,positionLimi
         updatePopulation.append(obj)
 
     return updatePopulation
+
+def printAllPopulation(population,message):
+    print(message)
+    count = 1
+    for obj in population:
+        print (f"objek ke-{count} : {obj.position}")
+    print("\n")
